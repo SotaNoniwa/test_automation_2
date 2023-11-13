@@ -1,4 +1,4 @@
-package org.example;
+package hu.unideb.inf;
 
 import io.cucumber.java.en.*;
 
