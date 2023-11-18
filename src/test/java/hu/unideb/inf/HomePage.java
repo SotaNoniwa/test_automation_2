@@ -30,8 +30,14 @@ public class HomePage {
     @FindBy(css = "#checkout-shipping-method-load > table > tbody > tr:nth-child(1) > td:nth-child(1) > input")
     private WebElement shippingMethodCheckbox;
 
-    @FindBy(css = "body > div.page-wrapper > header > div.panel.wrapper > div > ul > li.greet.welcome > span")
-    private WebElement welcomeMessage;
+    @FindBy(id = "email-error")
+    private WebElement emailErrorMessage;
+
+    @FindBy(id = "pass-error")
+    private WebElement passwordErrorMessage;
+
+    @FindBy(css = "#maincontent > div.page.messages > div:nth-child(2) > div > div > div")
+    private WebElement loginErrorMessage;
 
     private static final Map<String, By> textFields = Map.of(
             "Email Address", By.id("customer-email"),
@@ -96,8 +102,16 @@ public class HomePage {
         return priceLabel.getText();
     }
 
-    public String getMessage() {
-        return welcomeMessage.getText();
+    public String getEmailErrorMessage() {
+        return emailErrorMessage.getText();
+    }
+
+    public String getPasswordErrorMessage() {
+        return passwordErrorMessage.getText();
+    }
+
+    public String getLoginErrorMessage() {
+        return loginErrorMessage.getText();
     }
 
     public String getPageUrl() {
