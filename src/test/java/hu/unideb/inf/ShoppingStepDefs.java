@@ -8,13 +8,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ShoppingStepDefs {
 
-    @Given("the {string} is added to the cart")
-    public void itemIsAddedToTheCart(String item) {
-        homePage.addItemToCart(item);
+    @Given("the item {string} is selected")
+    public void selectItem(String item) {
+        homePage.selectItem(item);
     }
 
     @Then("the price should read {string}")
     public void thePriceShouldRead(String total) {
         assertEquals(total, homePage.getTotal());
+    }
+
+    @Then("the message should read {string}")
+    public void theMessageShouldRead(String message) {
+        assertEquals(message, homePage.getAddedItemMessage());
     }
 }

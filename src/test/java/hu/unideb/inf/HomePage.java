@@ -5,8 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Map;
 
 public class HomePage {
@@ -17,19 +20,6 @@ public class HomePage {
     @FindBy(css = "#checkout > div.opc-estimated-wrapper > div.estimated-block > span.estimated-price")
     private WebElement priceLabel;
 
-    @FindBy(id = "VGJO8D3")
-    private WebElement dropStates;
-    public void selectStates(String StateValue) {
-        Select dropState = new Select(dropStates);
-        dropState.selectByValue(StateValue);
-    }
-
-    @FindBy(id = "OPWCAVL")
-    private WebElement dropCountries;
-
-    @FindBy(css = "#checkout-shipping-method-load > table > tbody > tr:nth-child(1) > td:nth-child(1) > input")
-    private WebElement shippingMethodCheckbox;
-
     @FindBy(id = "email-error")
     private WebElement emailErrorMessage;
 
@@ -38,6 +28,9 @@ public class HomePage {
 
     @FindBy(css = "#maincontent > div.page.messages > div:nth-child(2) > div > div > div")
     private WebElement loginErrorMessage;
+
+    @FindBy(css = "#maincontent > div.page.messages > div:nth-child(2) > div > div > div")
+    private WebElement addedItemMessage;
 
     private static final Map<String, By> textFields = Map.of(
             "Email Address", By.id("customer-email"),
@@ -69,8 +62,21 @@ public class HomePage {
             "Create an Account", By.cssSelector("body > div.page-wrapper > header > div.panel.wrapper > div > ul > li:nth-child(3) > a"),
             "Cart", By.cssSelector("body > div.page-wrapper > header > div.header.content > div.minicart-wrapper > a"),
             "Checkout", By.id("top-cart-btn-checkout"),
+            "Side Bar", By.cssSelector("body > div.page-wrapper > header > div.header.content > span"),
             // login page
-            "LogIn", By.id("send2")
+            "LogIn", By.id("send2"),
+            // expand sign out option
+            "Expand Sign Out Menu", By.cssSelector("body > div.page-wrapper > header > div.panel.wrapper > div > ul > li.customer-welcome > span > button"),
+            "Sign Out", By.cssSelector("body > div.page-wrapper > header > div.panel.wrapper > div > ul > li.customer-welcome.active > div > ul > li.authorization-link > a")
+    );
+
+    private static final Map<String, By> navigationPanels = Map.of(
+            "Yoga panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > a > img"),
+            "20% Off panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > div > a.block-promo.home-pants > img"),
+            "3 + 1 panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > div > a.block-promo.home-t-shirts > img"),
+            "Erin panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > div > a.block-promo.home-erin > img"),
+            "Science panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > div > a.block-promo.home-performance > img"),
+            "Eco-friendly panel", By.cssSelector("#maincontent > div.columns > div > div.widget.block.block-static-block > div.blocks-promo > div > a.block-promo.home-eco > img")
     );
 
     public HomePage(WebDriver driver) {
@@ -94,7 +100,16 @@ public class HomePage {
         driver.findElement(navigationButtons.get(button)).click();
     }
 
-    public void addItemToCart(String item) {
+    public void clickPanel(String panel) {
+        By panelLocator = navigationPanels.get(panel);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement panelElement = wait.until(ExpectedConditions.elementToBeClickable(panelLocator));
+
+        panelElement.click();
+    }
+
+    public void selectItem(String item) {
         driver.findElement(itemButtons.get(item)).click();
     }
 
@@ -112,6 +127,10 @@ public class HomePage {
 
     public String getLoginErrorMessage() {
         return loginErrorMessage.getText();
+    }
+
+    public String getAddedItemMessage() {
+        return addedItemMessage.getText();
     }
 
     public String getPageUrl() {
