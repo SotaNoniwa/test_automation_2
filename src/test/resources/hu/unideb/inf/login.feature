@@ -39,4 +39,7 @@ Feature: LUMA User Login
     And the 'Password' field is filled with '5QUeYu..Vt6swvc'
     When the 'LogIn' button is clicked
     Then the user is directed to 'https://magento.softwaretestingboard.com/'
+    # add extra step for logout.feature (the website remembers that you logged in during the "Correct login attempt" scenario)
+    And the 'Expand Sign Out Menu' button is clicked
+    And the 'Sign Out' button is clicked
 
