@@ -9,3 +9,5 @@ Built using **Java 19**.
 Run the tests using the following Maven command:
 
 <code>mvn test</code>
+
+Total: 21 points
